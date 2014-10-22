@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A388a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="REPO_CELL" rowHeight="131" id="KGk-i7-Jjw" customClass="RepoCell" customModule="GitHubClient" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="ghimage" highlightedImage="ghimage" translatesAutoresizingMaskIntoConstraints="NO" id="hWk-MR-9uT">
+                        <rect key="frame" x="248" y="48" width="64" height="64"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="64" id="cpG-jj-2bN"/>
+                            <constraint firstAttribute="height" constant="64" id="cwx-vK-e5W"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="repoName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g1d-Dt-m2e">
+                        <rect key="frame" x="8" y="27" width="93" height="24"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="ownerName" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yKv-nX-FPj">
+                        <rect key="frame" x="147" y="91" width="93" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="repoURL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6uQ-6e-5r5">
+                        <rect key="frame" x="8" y="9" width="46" height="14"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="repoID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YRK-f8-FYJ">
+                        <rect key="frame" x="8" y="55" width="38" height="15"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" red="1" green="1" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                <constraints>
+                    <constraint firstItem="6uQ-6e-5r5" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="06U-hP-1JL"/>
+                    <constraint firstItem="hWk-MR-9uT" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="ChO-vi-vM3"/>
+                    <constraint firstItem="g1d-Dt-m2e" firstAttribute="top" secondItem="6uQ-6e-5r5" secondAttribute="bottom" constant="4" id="Oy8-2b-uIc"/>
+                    <constraint firstItem="yKv-nX-FPj" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="STX-OJ-fzh"/>
+                    <constraint firstItem="YRK-f8-FYJ" firstAttribute="top" secondItem="g1d-Dt-m2e" secondAttribute="bottom" constant="4" id="fCO-iT-bo0"/>
+                    <constraint firstItem="6uQ-6e-5r5" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="h1W-al-VHi"/>
+                    <constraint firstItem="hWk-MR-9uT" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="hlD-av-zuR"/>
+                    <constraint firstItem="YRK-f8-FYJ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="kLc-K6-fcJ"/>
+                    <constraint firstItem="g1d-Dt-m2e" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="xdR-EX-hlU"/>
+                    <constraint firstItem="hWk-MR-9uT" firstAttribute="leading" secondItem="yKv-nX-FPj" secondAttribute="trailing" constant="8" id="zSb-rr-IdH"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="imageViewAvatar" destination="hWk-MR-9uT" id="irh-Vt-2gS"/>
+                <outlet property="ownerNameLabel" destination="yKv-nX-FPj" id="BkP-z4-kCu"/>
+                <outlet property="repoIDLabel" destination="YRK-f8-FYJ" id="JIN-5O-QjL"/>
+                <outlet property="repoNameLabel" destination="g1d-Dt-m2e" id="7Fa-8r-CQo"/>
+                <outlet property="repoURLLabel" destination="6uQ-6e-5r5" id="SW7-f7-CiF"/>
+            </connections>
+            <point key="canvasLocation" x="413" y="135"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="ghimage" width="512" height="512"/>
+    </resources>
+</document>
