@@ -15,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     let networkController = NetworkController()
     var hasLaunched : Bool?
+    var authExists : Bool?
 //    var managedObjectContext = NSManagedObjectContext()
 
 
@@ -44,6 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let authKey = "OAuthToken"
         if let authExists: AnyObject = NSUserDefaults.standardUserDefaults().valueForKey(authKey) {
             println("auth exists")
+            self.authExists = true
             
         } else {
             println("handle auth from AppDel")

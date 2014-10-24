@@ -25,17 +25,23 @@
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="4ns-n1-gX8">
+                        <rect key="frame" x="46" y="34" width="37" height="37"/>
+                    </activityIndicatorView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
                 <constraint firstAttribute="centerX" secondItem="q34-S6-r9G" secondAttribute="centerX" id="9fY-gB-8gh"/>
                 <constraint firstItem="q34-S6-r9G" firstAttribute="top" secondItem="u40-6K-nMe" secondAttribute="bottom" constant="4" id="AQv-DP-irt"/>
+                <constraint firstItem="u40-6K-nMe" firstAttribute="centerY" secondItem="4ns-n1-gX8" secondAttribute="centerY" id="OUt-lt-0pK"/>
                 <constraint firstAttribute="centerX" secondItem="u40-6K-nMe" secondAttribute="centerX" id="hCK-jB-xgb"/>
+                <constraint firstItem="u40-6K-nMe" firstAttribute="centerX" secondItem="4ns-n1-gX8" secondAttribute="centerX" id="ruJ-LV-QDd"/>
                 <constraint firstItem="u40-6K-nMe" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="4" id="vfc-fm-YZB"/>
             </constraints>
             <size key="customSize" width="130" height="96"/>
             <connections>
+                <outlet property="activityIndicator" destination="4ns-n1-gX8" id="dfG-sR-YHa"/>
                 <outlet property="imageView" destination="u40-6K-nMe" id="uCf-d1-jq0"/>
                 <outlet property="userNameLabel" destination="q34-S6-r9G" id="Bxt-wx-6Ec"/>
             </connections>

@@ -87,4 +87,13 @@ class RepositoryViewController: UIViewController, UITableViewDataSource, UITable
         
     }
     
+    func searchBar(searchBar: UISearchBar, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        
+        println(text)
+        
+        return text.validate()
+        
+        
+    }
+    
 }

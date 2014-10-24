@@ -112,7 +112,41 @@ class NetworkController {
         
         datatask.resume()
     }
-    
+
+    func retrieveMasterUser (session: NSURLSession, completionHandler : (masterUser: MasterUser?) -> (Void)) {
+        println("retrieve master user")
+
+        let session = session as NSURLSession!
+
+        let mUserURLString = self.apiURL + "user/"
+        let searchURL = NSURL(string: mUserURLString)
+
+        let datatask = NSURLSession.sharedSession().dataTaskWithURL(searchURL!, completionHandler: { (data, response, error: NSError?) -> Void in
+
+            let data = data as NSData!
+
+            if let httpResponse = response as? NSHTTPURLResponse {
+                switch httpResponse.statusCode {
+                case 200...204:
+                    for header in httpResponse.allHeaderFields {
+                        println(header)
+                        println("END HEADER")
+                    }
+                    let responseString = NSString(data: data, encoding: NSUTF8StringEncoding)!
+                    println("response string is \(responseString)")
+
+                    let masterUser = MasterUser.parseJSONDataIntoMasterUser(data)
+                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                        completionHandler(masterUser: masterUser)
+                    })
+                default:
+                    println("bad response is \(httpResponse.statusCode)")
+                }
+            }
+        })
+
+        datatask.resume()
+    }
     
     
     func getAvatar(avatarURL : String, completionHandler: (imageFor : UIImage) -> (Void)) {

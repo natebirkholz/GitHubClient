@@ -15,7 +15,9 @@ class UserViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     var users : [User]?
     var networkController : NetworkController!
-
+    var origin: CGRect?
+    
+    let animationDelegate = AnimationDelegate()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +25,7 @@ class UserViewController: UIViewController, UICollectionViewDataSource, UICollec
         let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         let networkController = appDelegate.networkController
         self.networkController = networkController
-        
+
         self.searchBar.delegate =  self
         self.searchBar.prompt = "Search GitHub for Users"
         
@@ -31,6 +33,11 @@ class UserViewController: UIViewController, UICollectionViewDataSource, UICollec
         self.collectionView.delegate = self
         self.collectionView.registerNib(UINib(nibName: "UserCell", bundle: NSBundle.mainBundle()), forCellWithReuseIdentifier: "USER_CELL")
 
+        self.collectionView.reloadData()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.navigationController?.delegate = animationDelegate
         self.collectionView.reloadData()
     }
     
@@ -50,19 +57,30 @@ class UserViewController: UIViewController, UICollectionViewDataSource, UICollec
             let cellIdentifier = "USER_CELL"
             let userForSection = self.users?[indexPath.row] as User!
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellIdentifier, forIndexPath: indexPath) as UserCell
-            
+            cell.imageView?.image = nil
+        
             cell.userNameLabel.text = userForSection.userLogin as String
             
             if self.users?[indexPath.row].userAvatar != nil {
-                cell.imageView.image = self.users![indexPath.row].userAvatar
+                cell.imageView?.image = self.users![indexPath.row].userAvatar!
                 
             } else {
+                cell.activityIndicator.startAnimating()
                 self.networkController.getAvatar(userForSection.userAvatarURL, completionHandler: { (imageFor) -> (Void) in
                     let userAvatar = imageFor as UIImage!
-                    cell.imageView.image = userAvatar
+                    UIView.transitionWithView(cell.imageView!, duration: 0.3, options: UIViewAnimationOptions.TransitionFlipFromBottom, animations: { () -> Void in
+                        cell.imageView?.image = userAvatar as UIImage!
+                        return ()
+                    }, completion: { (completion) -> Void in
+                        cell.activityIndicator.stopAnimating()
+                        self.users?[indexPath.row].userAvatar = userAvatar!
+
+                    })
                     
-                    self.users?[indexPath.row].userAvatar = userAvatar
+                    
+                    
                 })
+                
         }
         return cell
 
@@ -88,6 +106,50 @@ class UserViewController: UIViewController, UICollectionViewDataSource, UICollec
         }
     }
     
+    func searchBar(searchBar: UISearchBar, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        
+        println(text)
+        
+        return text.validate()
+        
+        
+    }
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        // Grab the attributes of the tapped upon cell
+        let attributes = collectionView.layoutAttributesForItemAtIndexPath(indexPath)
+        
+        // Grab the onscreen rectangle of the tapped upon cell, relative to the collection view
+        let origin = self.view.convertRect(attributes!.frame, fromView: collectionView)
+        
+        // Save our starting location as the tapped upon cells frame
+        self.origin = origin
+        
+        // Find tapped image, initialize next view controller
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as UICollectionViewCell!
+        let image = self.users?[indexPath.row].userAvatar as UIImage!
+        let userToSend = self.users?[indexPath.row] as User!
+
+        self.performSegueWithIdentifier("SHOW_UPVC", sender: nil)
+        
+        
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        if segue.identifier == "SHOW_UPVC" {
+            
+//            let cell = sender as UICollectionViewCell!
+            let indexPath = collectionView.indexPathsForSelectedItems()?.last as NSIndexPath!
+//            let indexPath = collectionView.indexPathForCell(cell) as NSIndexPath!
+            let destinationVC = segue.destinationViewController as UserProfileViewController
+            var selectedUser = self.users?[indexPath.row] as User!
+            destinationVC.selectedUser = selectedUser
+            destinationVC.reverseOrigin = self.origin
+            
+        } else {
+            //rintln("create")
+        }
+    }
     
     
     

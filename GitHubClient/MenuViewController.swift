@@ -11,16 +11,18 @@ import UIKit
 class MenuViewController: UITableViewController, UITableViewDataSource, UITableViewDelegate {
     
     var menuEntries = ["Users", "Repositiories", "User Profile"]
-
     
-    
+    let animationDelegate = AnimationDelegate()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
     self.tableView.delegate = self
+        
+        self.navigationController?.delegate = animationDelegate
 
     }
+
 
 
     
@@ -51,7 +53,7 @@ class MenuViewController: UITableViewController, UITableViewDataSource, UITableV
                 self.performSegueWithIdentifier("SHOW_REPO", sender: self)
             case "User Profile":
                 println("User Profile")
-                self.performSegueWithIdentifier("SHOW_PROFILE", sender: self)
+                self.performSegueWithIdentifier("SHOW_PROFILE", sender: nil)
             case "Users":
                 println("Users")
                 self.performSegueWithIdentifier("SHOW_USERS", sender: self)
