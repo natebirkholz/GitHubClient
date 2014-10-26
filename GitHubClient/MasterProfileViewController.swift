@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class MasterProfileViewController: UIViewController {
     
     var networkController : NetworkController!
     var masterUser : MasterUser?
@@ -21,25 +21,24 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var hireMeImage: UIImageView!
     @IBOutlet weak var imageView: UIImageView!
 
+// -------------------------------------------------
+//    MARK: Lifecycle
+// -------------------------------------------------
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        
         self.networkController = appDelegate.networkController as NetworkController!
-
         if let authExists = appDelegate.authExists as Bool! {
             if let token = self.networkController?.getTokenFromDefaults() as String! {
-                let session = self.networkController.useTokenForSession(token) as NSURLSession!
-
-                self.networkController.retrieveMasterUser(session, completionHandler: { (masterUser) -> (Void) in
+                self.networkController.retrieveMasterUser(token, completionHandler: { (masterUser) -> (Void) in
                     self.masterUser = masterUser
+                    self.populateFields()
                 })
             }
+        } else {
+            println("No OAuth found")
         }
-
-
-
 
     }
 
@@ -47,21 +46,18 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        if self.masterUser != nil {
-            self.populateFields()
-        }
-
-
-
     }
 
 
     func populateFields() {
+        println("populating")
         self.bioField.text = self.masterUser?.bio as String!
         self.loginLabel.text = self.masterUser?.userLogin as String!
         self.nameLabel.text = self.masterUser?.userName as String!
         self.reposPriLabel.text = String(self.masterUser?.reposPrivate as Int!)
         self.reposPubLabel.text = String(self.masterUser?.reposPublic as Int!)
+
+        self.bioField.reloadInputViews()
 
         if self.masterUser?.hireMe == true {
             self.hireMeImage.hidden = false
@@ -74,8 +70,8 @@ class ProfileViewController: UIViewController {
             self.masterUser?.userAvatar = imageFor as UIImage!
             self.imageView.image = self.masterUser?.userAvatar
         })
+
     }
 
 
-
-}
+} // End

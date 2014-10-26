@@ -23,11 +23,7 @@ class UserProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.navigationController?.delegate = animationDelegate
-        
-        
-        
         self.imageView.image = self.selectedUser?.userAvatar as UIImage!
         self.userNameLabel.text = self.selectedUser?.userLogin as String!
         self.userURLLabel.text = self.selectedUser?.userURL as String!

@@ -17,7 +17,8 @@ class Repo {
     var ownerID : Int
     var avatar : UIImage?
     var ownerURL : NSURL
-    var repoURL : NSURL
+    var avatarURL : String
+    var repoURL : String
     
     
     init (repoDictionary : NSDictionary) {
@@ -31,42 +32,31 @@ class Repo {
         self.ownerID = repoOwnerDictionary["id"] as Int
         let ownerURLString = repoOwnerDictionary.valueForKey("url") as String
         self.ownerURL = NSURL(string: ownerURLString)!
-        let repoURLString = repoDictionary["url"] as String
-        self.repoURL = NSURL(string: repoURLString)!
+        self.repoURL = repoDictionary["url"] as String
+        self.avatarURL = repoOwnerDictionary["avatar_url"] as String
     }
     
     class func parseJSONDataIntoRepositories (rawJSONData : NSData) -> [Repo]? {
         var error : NSError?
             println(error?)
-        println("was error")
+        println("was Repo error")
         
         if let JSONTopDictionary = NSJSONSerialization.JSONObjectWithData(rawJSONData, options: NSJSONReadingOptions.AllowFragments, error: &error) as? NSDictionary {
             
             if let JSONArray = JSONTopDictionary["items"] as? NSArray {
-                println("let--------------------------------------------")
                 var repos = [Repo]()
                 for JSONDictionary in JSONArray {
-                    println("let again")
                     if let repoDictionary = JSONDictionary as? NSDictionary {
-                        println("more let")
                         var newRepo = Repo(repoDictionary: repoDictionary)
                         repos.append(newRepo)
                     }
                 }
-                
                 return repos
             }
         }
-        
-        
-        
-        println("nil------------------------------------------")
-        
         return nil
-        
-        
+
     }
     
-    
-    
-}
+
+} // End

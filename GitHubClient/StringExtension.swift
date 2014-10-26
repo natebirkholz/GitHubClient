@@ -14,12 +14,12 @@ extension String {
         
         let regEx = NSRegularExpression(pattern: "[^0-9a-zA-Z\n]", options: nil, error: nil)
         let match = regEx?.numberOfMatchesInString(self, options: nil, range: NSRange(location: 0, length: countElements(self)))
-        
-        
+
         if match > 0 {
             return false
         } else {
             return true
         }
     }
+    
 }

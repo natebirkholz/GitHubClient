@@ -34,7 +34,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSUserDefaults.standardUserDefaults().setValue("true", forKey: key)
             NSUserDefaults.standardUserDefaults().synchronize()
         }
-        
+
+        let authKey = "OAuthToken"
+
+        if let authExists: AnyObject = NSUserDefaults.standardUserDefaults().valueForKey(authKey) {
+            println("auth exists as \(authExists)")
+            self.authExists = true as Bool!
+
+        }
+
+
         
         
         return true
@@ -45,11 +54,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let authKey = "OAuthToken"
         if let authExists: AnyObject = NSUserDefaults.standardUserDefaults().valueForKey(authKey) {
             println("auth exists")
-            self.authExists = true
-            
+            self.authExists = true as Bool!
+
         } else {
             println("handle auth from AppDel")
-            self.networkController.handleOAuthURL(url)
+            self.networkController.handleOAuthURL(url, completionHandler: { (successIs) -> (Void) in
+                if successIs == true {
+                    self.authExists = true as Bool!
+                } else {
+                    println("auth failed")
+                }
+            })
+
 
         }
         

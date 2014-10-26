@@ -12,18 +12,25 @@ class MenuViewController: UITableViewController, UITableViewDataSource, UITableV
     
     var menuEntries = ["Users", "Repositiories", "User Profile"]
     
-    let animationDelegate = AnimationDelegate()
+
+// -------------------------------------------------
+//    MARK: Lifecycle
+// -------------------------------------------------
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-    self.tableView.delegate = self
-        
-        self.navigationController?.delegate = animationDelegate
+        self.tableView.delegate = self
 
     }
 
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
 
+    }
+
+// -------------------------------------------------
+//    MARK: Tableview
+// -------------------------------------------------
 
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -32,17 +39,16 @@ class MenuViewController: UITableViewController, UITableViewDataSource, UITableV
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
         let cellIdentifier = "MENU_CELL"
         let menuItemForRow = self.menuEntries[indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as UITableViewCell
-        
-        
+        cell.textLabel.textColor = UIColor.whiteColor()
+        cell.textLabel.font = UIFont(name: "American Typewriter", size: 18.0)
         cell.textLabel.text = self.menuEntries[indexPath.row] as String!
         
         return cell
+
     }
-    
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let selectedItem = self.menuEntries[indexPath.row]
@@ -59,19 +65,9 @@ class MenuViewController: UITableViewController, UITableViewDataSource, UITableV
                 self.performSegueWithIdentifier("SHOW_USERS", sender: self)
             default:
                 println("Default")
-            
         }
-        
-        
-        
-    }
-    
-//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//        if segue.identifier == "showRepoController" {
-//            let destinationVC = segue.destinationViewController as RepositoryViewController
-//            destinationVC.delegate = self
-//        }
-//    }
-    
 
-}
+    }
+
+
+} // End

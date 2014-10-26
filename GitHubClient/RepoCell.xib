@@ -14,44 +14,49 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="ghimage" highlightedImage="ghimage" translatesAutoresizingMaskIntoConstraints="NO" id="hWk-MR-9uT">
-                        <rect key="frame" x="248" y="48" width="64" height="64"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ghimage" highlightedImage="ghimage" translatesAutoresizingMaskIntoConstraints="NO" id="hWk-MR-9uT">
+                        <rect key="frame" x="248" y="47" width="64" height="64"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="64" id="cpG-jj-2bN"/>
                             <constraint firstAttribute="height" constant="64" id="cwx-vK-e5W"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="repoName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g1d-Dt-m2e">
-                        <rect key="frame" x="8" y="27" width="93" height="24"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="repoName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g1d-Dt-m2e">
+                        <rect key="frame" x="8" y="25" width="104" height="25"/>
+                        <fontDescription key="fontDescription" name="AmericanTypewriter-Bold" family="American Typewriter" pointSize="20"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="ownerName" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yKv-nX-FPj">
-                        <rect key="frame" x="147" y="91" width="93" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ownerName" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yKv-nX-FPj">
+                        <rect key="frame" x="142" y="91" width="98" height="20"/>
+                        <fontDescription key="fontDescription" name="AmericanTypewriter" family="American Typewriter" pointSize="17"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="repoURL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6uQ-6e-5r5">
-                        <rect key="frame" x="8" y="9" width="46" height="14"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="repoURL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6uQ-6e-5r5">
+                        <rect key="frame" x="8" y="8" width="47" height="13"/>
+                        <fontDescription key="fontDescription" name="AmericanTypewriter" family="American Typewriter" pointSize="11"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="repoID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YRK-f8-FYJ">
-                        <rect key="frame" x="8" y="55" width="38" height="15"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="repoID" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YRK-f8-FYJ">
+                        <rect key="frame" x="8" y="54" width="40" height="14"/>
+                        <fontDescription key="fontDescription" name="AmericanTypewriter" family="American Typewriter" pointSize="12"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="vIk-0j-mrm">
+                        <rect key="frame" x="270" y="69" width="20" height="20"/>
+                    </activityIndicatorView>
                 </subviews>
-                <color key="backgroundColor" red="1" green="1" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                <color key="backgroundColor" red="0.0" green="0.00095055150170000001" blue="0.32868303570000001" alpha="1" colorSpace="calibratedRGB"/>
                 <constraints>
                     <constraint firstItem="6uQ-6e-5r5" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="06U-hP-1JL"/>
+                    <constraint firstItem="vIk-0j-mrm" firstAttribute="centerX" secondItem="hWk-MR-9uT" secondAttribute="centerX" id="1Y4-qp-9en"/>
                     <constraint firstItem="hWk-MR-9uT" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="ChO-vi-vM3"/>
                     <constraint firstItem="g1d-Dt-m2e" firstAttribute="top" secondItem="6uQ-6e-5r5" secondAttribute="bottom" constant="4" id="Oy8-2b-uIc"/>
                     <constraint firstItem="yKv-nX-FPj" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="STX-OJ-fzh"/>
+                    <constraint firstItem="vIk-0j-mrm" firstAttribute="centerY" secondItem="hWk-MR-9uT" secondAttribute="centerY" id="SUb-R0-Yaa"/>
                     <constraint firstItem="YRK-f8-FYJ" firstAttribute="top" secondItem="g1d-Dt-m2e" secondAttribute="bottom" constant="4" id="fCO-iT-bo0"/>
                     <constraint firstItem="6uQ-6e-5r5" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="h1W-al-VHi"/>
                     <constraint firstItem="hWk-MR-9uT" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="hlD-av-zuR"/>
@@ -61,6 +66,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="activityIndicator" destination="vIk-0j-mrm" id="26D-3s-hfT"/>
                 <outlet property="imageViewAvatar" destination="hWk-MR-9uT" id="irh-Vt-2gS"/>
                 <outlet property="ownerNameLabel" destination="yKv-nX-FPj" id="BkP-z4-kCu"/>
                 <outlet property="repoIDLabel" destination="YRK-f8-FYJ" id="JIN-5O-QjL"/>

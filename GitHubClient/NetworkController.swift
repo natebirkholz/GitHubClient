@@ -9,14 +9,11 @@
 import UIKit
 
 class NetworkController {
-    let url = NSURL(string: "http://127.0.0.1:3000")
-    
+
     var imageQueue = NSOperationQueue()
-    
-    
+
     let apiURL = "https://api.github.com/"
-    
-    
+    let url = NSURL(string: "http://127.0.0.1:3000")
     let gitHubOAuthURL = "https://github.com/login/oauth/authorize?"
     let scope = "scope=user,repo"
     let redirectURL = "redirect_uri=somefancyname://test"
@@ -27,128 +24,166 @@ class NetworkController {
     init () {
         
     }
-    
-    func searchForRepositories () {
-        
-    }
-    
+// -------------------------------------------------
+//    MARK: OAuth
+// -------------------------------------------------
+
     func requestOAuthAccess() {
-        println("request OAUth Access")
+//        make the request to the github API using the application authorization I created
         let url = gitHubOAuthURL + clientID + "&" + redirectURL + "&" + scope
-        println("Url for auth access is \(url)")
         UIApplication.sharedApplication().openURL(NSURL(string: url)!)
-        println("FInished with auth access")
+
     }
+
+    func handleOAuthURL(callbackURL: NSURL, completionHandler: (successIs: Bool) -> (Void)) {
+//        Use OAuth Access to generate OAuth token
+        let query = callbackURL.query
+        let components = query?.componentsSeparatedByString("code=")
+        let code = components?.last!
+        let urlQuery = self.clientID + "&" + self.clientSecret + "&" + "code=\(code!)"
+        var request = NSMutableURLRequest(URL: NSURL(string: gitHubPostURL)!)
+        request.HTTPMethod = "POST"
+        var postData = urlQuery.dataUsingEncoding(NSASCIIStringEncoding, allowLossyConversion: true)
+        let length = postData!.length
+        request.setValue("\(length)", forHTTPHeaderField: "Content-Length")
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.HTTPBody = postData
+
+        let datatask: Void = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: { (data, response, error) -> Void in
+            if error != nil {
+                print("alert: ERROR is ")
+                println(error.localizedDescription)
+            } else {
+                if let httpResponse = response as? NSHTTPURLResponse {
+                    switch httpResponse.statusCode {
+                        case 200...204:
+                            var tokenResponse = NSString(data: data, encoding: NSASCIIStringEncoding)
+                            let tokenComponents = tokenResponse?.componentsSeparatedByString("=")
+                            let tokenSeed = tokenComponents?[1].componentsSeparatedByString("&")
+                            let tokenFor = tokenSeed?.first! as String!
+                            let key = "OAuthToken"
+                            NSUserDefaults.standardUserDefaults().setValue(tokenFor, forKey: key)
+                            NSUserDefaults.standardUserDefaults().synchronize()
+                            completionHandler(successIs: true)
+                        default:
+                            println("default")
+                            completionHandler(successIs: false)
+                    }
+                }
+            }
+        }) .resume()
+
+    }
+
+    func getTokenFromDefaults () -> String? {
+//        Load the Token for NSUSerDefualts
+        if let token = NSUserDefaults.standardUserDefaults().valueForKey("OAuthToken") as? String {
+            println("token found by network controller")
+            return token
+        } else {
+            println("NO TOKEN FOUND")
+            return nil
+        }
+
+    }
+
+
+// -------------------------------------------------
+//    MARK: Token-validated searches
+// -------------------------------------------------
     
-    func retrieveRepositoriesFromSearch (session: NSURLSession, searchText: String, completionHandler : (repos: [Repo]?) -> (Void)) {
-        println("retrieve repositiories")
-        
-        let session = session as NSURLSession!
-        
+    func retrieveRepositoriesFromSearch (token: String, searchText: String, completionHandler : (repos: [Repo]?) -> (Void)) {
+        var mySession = NSURLSession.sharedSession()
         let searchString = searchText.stringByReplacingOccurrencesOfString(" ", withString: "+", options: NSStringCompareOptions.LiteralSearch, range: nil)
-        let searchURLString = self.apiURL + "search/repositories?q=" + searchString
-        let searchURL = NSURL(string: searchURLString)
-        
-        let datatask = NSURLSession.sharedSession().dataTaskWithURL(searchURL!, completionHandler: { (data, response, error: NSError?) -> Void in
-            
+        let theEndpoint = "search/repositories?q=" + searchString
+        let url = NSURL(string: self.apiURL + theEndpoint)
+        let request = NSMutableURLRequest(URL: url!)
+        let token = token as String!
+        request.setValue("token " + token, forHTTPHeaderField: "Authorization")
+
+        let datatask = mySession.dataTaskWithRequest(request, completionHandler: { (data, response, error) -> Void in
             let data = data as NSData!
-            
             if let httpResponse = response as? NSHTTPURLResponse {
                 switch httpResponse.statusCode {
-                case 200...204:
-                    for header in httpResponse.allHeaderFields {
-                        println(header)
-                    }
-                    let responseString = NSString(data: data, encoding: NSUTF8StringEncoding)
-                    println("response string is \(responseString)")
-
-                    let repos = Repo.parseJSONDataIntoRepositories(data)
-                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                        completionHandler(repos: repos)
-                    })
-                default:
-                    println("bad response is \(httpResponse.statusCode)")
+                    case 200...204:
+                        for header in httpResponse.allHeaderFields {
+                            println(header)
+                        }
+                        let responseString = NSString(data: data, encoding: NSUTF8StringEncoding)
+                        let repos = Repo.parseJSONDataIntoRepositories(data)
+                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                            completionHandler(repos: repos)
+                        })
+                    default:
+                        println("bad response is \(httpResponse.statusCode)")
                 }
             }
         })
-        
         datatask.resume()
     }
     
-    
-    
-    func retrieveUsersFromSearch (session: NSURLSession, searchText: String, completionHandler : (users: [User]?) -> (Void)) {
-        println("retrieve repositiories")
-        
-        let session = session as NSURLSession!
-        
+    func retrieveUsersFromSearch (token: String, searchText: String, completionHandler : (users: [User]?) -> (Void)) {
+        var mySession = NSURLSession.sharedSession()
         let searchString = searchText.stringByReplacingOccurrencesOfString(" ", withString: "+", options: NSStringCompareOptions.LiteralSearch, range: nil)
-        let searchURLString = self.apiURL + "search/users?q=" + searchString
-        let searchURL = NSURL(string: searchURLString)
-        
-        let datatask = NSURLSession.sharedSession().dataTaskWithURL(searchURL!, completionHandler: { (data, response, error: NSError?) -> Void in
-            
+        let theEndpoint = "search/users?q=" + searchString
+        let url = NSURL(string: self.apiURL + theEndpoint)
+        let request = NSMutableURLRequest(URL: url!)
+        let token = token as String!
+        request.setValue("token " + token, forHTTPHeaderField: "Authorization")
+        let datatask = mySession.dataTaskWithRequest(request, completionHandler: { (data, response, error) -> Void in
             let data = data as NSData!
-            
             if let httpResponse = response as? NSHTTPURLResponse {
                 switch httpResponse.statusCode {
-                case 200...204:
-                    for header in httpResponse.allHeaderFields {
-                        println(header)
-                        println("END HEADER")
-                    }
-                    let responseString = NSString(data: data, encoding: NSUTF8StringEncoding)!
-                    println("response string is \(responseString)")
-                    
-                    let users = User.parseJSONDataIntoUsers(data)
-                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                        completionHandler(users: users)
-                    })
-                default:
-                    println("bad response is \(httpResponse.statusCode)")
+                    case 200...204:
+                        for header in httpResponse.allHeaderFields {
+                            println(header)
+                        }
+                        let responseString = NSString(data: data, encoding: NSUTF8StringEncoding)!
+                        let users = User.parseJSONDataIntoUsers(data)
+                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                            completionHandler(users: users)
+                        })
+                    default:
+                        println("bad response is \(httpResponse.statusCode)")
                 }
             }
         })
-        
         datatask.resume()
     }
 
-    func retrieveMasterUser (session: NSURLSession, completionHandler : (masterUser: MasterUser?) -> (Void)) {
-        println("retrieve master user")
-
-        let session = session as NSURLSession!
-
-        let mUserURLString = self.apiURL + "user/"
-        let searchURL = NSURL(string: mUserURLString)
-
-        let datatask = NSURLSession.sharedSession().dataTaskWithURL(searchURL!, completionHandler: { (data, response, error: NSError?) -> Void in
-
+    func retrieveMasterUser (token: String, completionHandler : (masterUser: MasterUser?) -> (Void)) {
+        var mySession = NSURLSession.sharedSession()
+        let theEndpoint = "user"
+        let url = NSURL(string: self.apiURL + theEndpoint)
+        let request = NSMutableURLRequest(URL: url!)
+        let token = token as String!
+        request.setValue("token " + token, forHTTPHeaderField: "Authorization")
+        let datatask = mySession.dataTaskWithRequest(request, completionHandler: { (data, response, error) -> Void in
             let data = data as NSData!
-
             if let httpResponse = response as? NSHTTPURLResponse {
                 switch httpResponse.statusCode {
-                case 200...204:
-                    for header in httpResponse.allHeaderFields {
-                        println(header)
-                        println("END HEADER")
-                    }
-                    let responseString = NSString(data: data, encoding: NSUTF8StringEncoding)!
-                    println("response string is \(responseString)")
-
-                    let masterUser = MasterUser.parseJSONDataIntoMasterUser(data)
-                    NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
-                        completionHandler(masterUser: masterUser)
-                    })
-                default:
-                    println("bad response is \(httpResponse.statusCode)")
+                    case 200...204:
+                        for header in httpResponse.allHeaderFields {
+                            println(header)
+                        }
+                        let responseString = NSString(data: data, encoding: NSUTF8StringEncoding)!
+                        let masterUser = MasterUser.parseJSONDataIntoMasterUser(data)
+                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                            completionHandler(masterUser: masterUser)
+                        })
+                    default:
+                        println("bad response is \(httpResponse.statusCode)")
                 }
             }
         })
-
         datatask.resume()
+
     }
-    
-    
+
+// -------------------------------------------------
+//    MARK: Unauthenticated Data
+// -------------------------------------------------
+
     func getAvatar(avatarURL : String, completionHandler: (imageFor : UIImage) -> (Void)) {
         self.imageQueue.addOperationWithBlock { () -> Void in
             let avatarURL = NSURL(string: avatarURL)
@@ -160,105 +195,5 @@ class NetworkController {
             })
         }
     }
-    
 
-    
-    
-    func handleOAuthURL(callbackURL: NSURL) {
-            println("handle oAuth")
-            println(callbackURL)
-        let query = callbackURL.query
-            println("query is \(query)")
-        let components = query?.componentsSeparatedByString("code=")
-            println("components = \(components)")
-        
-        let code = components?.last!
-            println("last code is \(code)")
-        let urlQuery = clientID + "&" + clientSecret + "&" + "code=\(code!)"
-            println("urlQuery is \(urlQuery)")
-        var request = NSMutableURLRequest(URL: NSURL(string: gitHubPostURL)!)
-        
-        request.HTTPMethod = "POST"
-        
-        var postData = urlQuery.dataUsingEncoding(NSASCIIStringEncoding, allowLossyConversion: true)
-        let length = postData!.length
-        
-    
-        request.setValue("\(length)", forHTTPHeaderField: "Content-Length")
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.HTTPBody = postData
-        
-        let datatask: Void = NSURLSession.sharedSession().dataTaskWithRequest(request, completionHandler: { (data, response, error) -> Void in
-            if error != nil {
-                println(error.localizedDescription)
-            } else {
-                if let httpResponse = response as? NSHTTPURLResponse {
-                    
-                    println(httpResponse.statusCode)
-                    switch httpResponse.statusCode {
-                        
-                        
-                    case 200...204:
-                        var tokenResponse = NSString(data: data, encoding: NSASCIIStringEncoding)
-                        println("Response is \(tokenResponse!)")
-                        
-                        let tokenComponents = tokenResponse?.componentsSeparatedByString("=")
-                        let tokenSeed = tokenComponents?[1].componentsSeparatedByString("&")
-                        let tokenFor = tokenSeed?.first! as String!
-                        println("token seed is \(tokenSeed)")
-                        println("tokenFor is \(tokenFor)")
-                        
-                        let key = "OAuthToken"
-                        
-                        NSUserDefaults.standardUserDefaults().setValue(tokenFor, forKey: key)
-                        NSUserDefaults.standardUserDefaults().synchronize()
-                        
-//                        self.useTokenForSession(tokenFor)
-
-                        
-                        
-                    default:
-                        println("default")
-                    }
-                }
-            }
-        }) .resume()
-        
-        
-        
-    }
-    
-    func getTokenFromDefaults () -> String? {
-        
-        if let token = NSUserDefaults.standardUserDefaults().valueForKey("OAuthToken") as? String {
-            return token
-        } else {
-            println("NO TOKEN FOUND")
-            return nil
-        }
-
-    }
-    
-    func useTokenForSession (token : String!) -> NSURLSession! {
-        
-        var configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-        println(token)
-        var HTTPAdditionalHeaders : [NSObject : AnyObject] = ["Authorization" : "token \(token)"]
-        println(HTTPAdditionalHeaders)
-        
-        
-        configuration.HTTPAdditionalHeaders = HTTPAdditionalHeaders
-        println(configuration)
-        
-        var session = NSURLSession(configuration: configuration)
-        println(session.configuration)
-        println("HERE")
-    
-        return session
-        
-    }
-    
-    
-
-
-}
+} // End

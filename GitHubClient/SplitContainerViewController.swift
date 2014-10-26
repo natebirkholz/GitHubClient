@@ -17,30 +17,19 @@ class SplitContainerViewController: UIViewController, UISplitViewControllerDeleg
         
         let splitVC = self.childViewControllers[0] as UISplitViewController
         splitVC.delegate =  self
-        
-//        splitVC.viewControllers[0].viewControllers[0]
-        
         var appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        
-//        self.networkController = appDelegate.networkController
-//        self.networkController.retrieveRepositoriesFromSearch()
-
 
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
     func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController: UIViewController!, ontoPrimaryViewController primaryViewController: UIViewController!) -> Bool {
         
         var appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         if appDelegate.hasLaunched?.boolValue == true {
+            // Force the user to the MasterProfileViewController if first launch
             return false
         }
-        
         return true
     }
 
 
-}
+} // End

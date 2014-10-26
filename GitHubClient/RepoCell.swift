@@ -15,6 +15,7 @@ class RepoCell: UITableViewCell {
     @IBOutlet weak var repoURLLabel: UILabel!
     @IBOutlet weak var repoIDLabel: UILabel!
     @IBOutlet weak var ownerNameLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
