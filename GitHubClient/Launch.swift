@@ -17,4 +17,4 @@ class Launch: NSManagedObject {
      return true
     }
 
-}
+} // End

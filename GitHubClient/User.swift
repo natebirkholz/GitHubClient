@@ -15,19 +15,15 @@ class User {
     var userURL : String
     var userAvatarURL : String
     var userAvatar : UIImage?
-    
-    
-    
-    init (userDictionary: NSDictionary) {
+
+  init (userDictionary: NSDictionary) {
         var userDictionary = userDictionary as NSDictionary
         self.userLogin = userDictionary["login"] as String
         self.userURL = userDictionary["url"] as String
         self.userAvatarURL = userDictionary["avatar_url"] as String
         self.userDictionary = userDictionary as NSDictionary
-        
     }
-    
-    
+
     class func parseJSONDataIntoUsers (rawJSONData : NSData) -> [User]? {
         var error : NSError?
         println(error?)
@@ -42,13 +38,10 @@ class User {
                         users.append(newUser)
                     }
                 }
-                
                 return users
             }
         }
         return nil
-
     }
-    
     
 } // End

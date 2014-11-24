@@ -9,8 +9,7 @@
 import UIKit
 
 class UserProfileViewController: UIViewController {
-    
-    
+
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var userURLLabel: UILabel!
@@ -27,8 +26,6 @@ class UserProfileViewController: UIViewController {
         self.imageView.image = self.selectedUser?.userAvatar as UIImage!
         self.userNameLabel.text = self.selectedUser?.userLogin as String!
         self.userURLLabel.text = self.selectedUser?.userURL as String!
-
     }
 
-
-}
+} // End

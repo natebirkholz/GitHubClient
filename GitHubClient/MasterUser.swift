@@ -34,24 +34,18 @@ class MasterUser {
         println(userDictionary["bio"])
         self.bio = userDictionary["bio"] as? String
         self.hireMe = userDictionary["hireable"] as Bool
-        
         self.userDictionary = userDictionary as NSDictionary
-        
     }
 
     class func parseJSONDataIntoMasterUser (rawJSONData : NSData) -> MasterUser? {
         var error : NSError?
         println(error?)
-
-
         if let masterUserDictionary = NSJSONSerialization.JSONObjectWithData(rawJSONData, options: NSJSONReadingOptions.AllowFragments, error: &error) as? NSDictionary! {
             println("letting masterUserDictionary")
             var masterUser = MasterUser(masterUserDictionary: masterUserDictionary)
             return masterUser
             }
         return nil
-
     }
-
 
 } // End

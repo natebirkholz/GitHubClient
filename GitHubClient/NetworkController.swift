@@ -32,7 +32,6 @@ class NetworkController {
 //        make the request to the github API using the application authorization I created
         let url = gitHubOAuthURL + clientID + "&" + redirectURL + "&" + scope
         UIApplication.sharedApplication().openURL(NSURL(string: url)!)
-
     }
 
     func handleOAuthURL(callbackURL: NSURL, completionHandler: (successIs: Bool) -> (Void)) {
@@ -72,7 +71,6 @@ class NetworkController {
                 }
             }
         }) .resume()
-
     }
 
     func getTokenFromDefaults () -> String? {
@@ -84,9 +82,7 @@ class NetworkController {
             println("NO TOKEN FOUND")
             return nil
         }
-
     }
-
 
 // -------------------------------------------------
 //    MARK: Token-validated searches
@@ -177,7 +173,6 @@ class NetworkController {
             }
         })
         datatask.resume()
-
     }
 
 // -------------------------------------------------
@@ -189,7 +184,6 @@ class NetworkController {
             let avatarURL = NSURL(string: avatarURL)
             let imageData = NSData(contentsOfURL: avatarURL!)
             let imageFor = UIImage(data: imageData!)
-            
             NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                 completionHandler(imageFor: imageFor!)
             })

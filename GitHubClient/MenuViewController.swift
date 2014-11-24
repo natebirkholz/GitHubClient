@@ -20,22 +20,18 @@ class MenuViewController: UITableViewController, UITableViewDataSource, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.delegate = self
-
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
     }
 
 // -------------------------------------------------
 //    MARK: Tableview
 // -------------------------------------------------
 
-    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.menuEntries.count
-        
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -45,9 +41,7 @@ class MenuViewController: UITableViewController, UITableViewDataSource, UITableV
         cell.textLabel.textColor = UIColor.whiteColor()
         cell.textLabel.font = UIFont(name: "American Typewriter", size: 18.0)
         cell.textLabel.text = self.menuEntries[indexPath.row] as String!
-        
         return cell
-
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -66,8 +60,6 @@ class MenuViewController: UITableViewController, UITableViewDataSource, UITableV
             default:
                 println("Default")
         }
-
     }
-
 
 } // End

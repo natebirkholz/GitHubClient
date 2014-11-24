@@ -32,9 +32,7 @@ class RepositoryViewController: UIViewController, UITableViewDataSource, UITable
         self.tableView.tableHeaderView = UISearchBar()
         self.tableView.delegate = self
         self.tableView.registerNib(UINib(nibName: "RepoCell", bundle: NSBundle.mainBundle()), forCellReuseIdentifier: "REPO_CELL")
-        
         self.tableView.reloadData()
-
     }
 
 // -------------------------------------------------
@@ -46,12 +44,9 @@ class RepositoryViewController: UIViewController, UITableViewDataSource, UITable
             return self.repos!.count
         }
         return 0
-
     }
-    
 
-
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cellIdentifier = "REPO_CELL"
         let repoForSection = self.repos?[indexPath.row] as Repo!
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as RepoCell
@@ -67,7 +62,6 @@ class RepositoryViewController: UIViewController, UITableViewDataSource, UITable
             if cell.tag == currentTag {
                 cell.imageViewAvatar.image = self.repos![indexPath.row].avatar!
             }
-
         } else {
             cell.activityIndicator.startAnimating()
             var repoForCell = self.repos![indexPath.row] as Repo
@@ -83,18 +77,14 @@ class RepositoryViewController: UIViewController, UITableViewDataSource, UITable
                         self.repos?[indexPath.row].avatar = userAvatar!
                 })
             })
-
         }
-
         return cell
-
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let selectedItem = self.repos?[indexPath.row] as Repo!
         println(selectedItem)
         self.performSegueWithIdentifier("SHOW_WEB", sender: selectedItem)
-
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
@@ -114,7 +104,6 @@ class RepositoryViewController: UIViewController, UITableViewDataSource, UITable
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         var searchText = searchBar.text
         searchBar.resignFirstResponder()
-
         if let token = self.networkController?.getTokenFromDefaults() as String! {
             self.networkController.retrieveRepositoriesFromSearch(token, searchText: searchText, completionHandler: { (repos) -> (Void) in
                 self.repos = repos as [Repo]?
@@ -124,13 +113,10 @@ class RepositoryViewController: UIViewController, UITableViewDataSource, UITable
                     }, completion: nil)
             })
         }
-
     }
     
     func searchBar(searchBar: UISearchBar, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         return text.validate() // From String Extension
-        
     }
-
 
 } // End

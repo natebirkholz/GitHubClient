@@ -18,7 +18,6 @@ class SplitContainerViewController: UIViewController, UISplitViewControllerDeleg
         let splitVC = self.childViewControllers[0] as UISplitViewController
         splitVC.delegate =  self
         var appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-
     }
 
     func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController: UIViewController!, ontoPrimaryViewController primaryViewController: UIViewController!) -> Bool {
@@ -30,6 +29,5 @@ class SplitContainerViewController: UIViewController, UISplitViewControllerDeleg
         }
         return true
     }
-
 
 } // End

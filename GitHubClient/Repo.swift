@@ -19,8 +19,7 @@ class Repo {
     var ownerURL : NSURL
     var avatarURL : String
     var repoURL : String
-    
-    
+
     init (repoDictionary : NSDictionary) {
         let repoDictionary = repoDictionary
         let repoOwnerDictionary = repoDictionary["owner"] as NSDictionary
@@ -55,8 +54,6 @@ class Repo {
             }
         }
         return nil
-
     }
-    
 
 } // End

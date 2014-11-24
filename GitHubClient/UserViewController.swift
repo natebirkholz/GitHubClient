@@ -35,14 +35,12 @@ class UserViewController: UIViewController, UICollectionViewDataSource, UICollec
         self.collectionView.delegate = self
         self.collectionView.registerNib(UINib(nibName: "UserCell", bundle: NSBundle.mainBundle()), forCellWithReuseIdentifier: "USER_CELL")
         self.collectionView.reloadData()
-
     }
     
     override func viewWillAppear(animated: Bool) {
         self.navigationController?.delegate = animationDelegate
         self.imageFrame = nil
         self.collectionView.reloadData()
-
     }
 
 // -------------------------------------------------
@@ -54,7 +52,6 @@ class UserViewController: UIViewController, UICollectionViewDataSource, UICollec
             return self.users!.count
         }
         return 0
-
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -69,7 +66,6 @@ class UserViewController: UIViewController, UICollectionViewDataSource, UICollec
                 if cell.tag == currentTag { // part of the process of making surte the image loads once
                     cell.imageView?.image = self.users![indexPath.row].userAvatar!
                 }
-
             } else {
                 cell.activityIndicator.startAnimating()
                 self.networkController.getAvatar(userForSection.userAvatarURL, completionHandler: { (imageFor) -> (Void) in
@@ -84,10 +80,8 @@ class UserViewController: UIViewController, UICollectionViewDataSource, UICollec
                         self.users?[indexPath.row].userAvatar = userAvatar!
                     })
                 })
-                
         }
         return cell
-
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
@@ -98,20 +92,16 @@ class UserViewController: UIViewController, UICollectionViewDataSource, UICollec
         let image = self.users?[indexPath.row].userAvatar as UIImage!
         let userToSend = self.users?[indexPath.row] as User!
         self.imageFrame = cell.imageView?.frame as CGRect!
-
         self.performSegueWithIdentifier("SHOW_UPVC", sender: nil)
-
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         if segue.identifier == "SHOW_UPVC" {
-            
             let indexPath = collectionView.indexPathsForSelectedItems()?.last as NSIndexPath!
             let destinationVC = segue.destinationViewController as UserProfileViewController
             var selectedUser = self.users?[indexPath.row] as User!
             destinationVC.selectedUser = selectedUser
             destinationVC.reverseOrigin = self.origin
-            
         } else {
             println("Unknown Segue")
         }
@@ -133,13 +123,10 @@ class UserViewController: UIViewController, UICollectionViewDataSource, UICollec
                     }, completion: nil)
             })
         }
-
     }
 
     func searchBar(searchBar: UISearchBar, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         return text.validate()
-        
     }
-
 
 } // End

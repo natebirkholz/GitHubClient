@@ -39,13 +39,11 @@ class WebViewController: UIViewController {
         } else {
             println("Repo URL Not valid?")
         }
-
     }
 
     deinit {
             self.webView.removeObserver(self, forKeyPath: "estimatedProgress")
         println("deinit")
-
     }
 
     override func observeValueForKeyPath(keyPath: String, ofObject object: AnyObject, change: [NSObject : AnyObject], context: UnsafeMutablePointer<Void>) {
@@ -59,6 +57,5 @@ class WebViewController: UIViewController {
             }
         }
     }
-
 
 } // End

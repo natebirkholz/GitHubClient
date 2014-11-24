@@ -39,15 +39,11 @@ class MasterProfileViewController: UIViewController {
         } else {
             println("No OAuth found")
         }
-
     }
-
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
     }
-
 
     func populateFields() {
         println("populating")
@@ -58,7 +54,6 @@ class MasterProfileViewController: UIViewController {
         self.reposPubLabel.text = String(self.masterUser?.reposPublic as Int!)
 
         self.bioField.reloadInputViews()
-
         if self.masterUser?.hireMe == true {
             self.hireMeImage.hidden = false
         } else {
@@ -70,8 +65,6 @@ class MasterProfileViewController: UIViewController {
             self.masterUser?.userAvatar = imageFor as UIImage!
             self.imageView.image = self.masterUser?.userAvatar
         })
-
     }
-
 
 } // End
